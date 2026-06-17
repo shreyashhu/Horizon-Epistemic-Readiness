@@ -1,0 +1,6 @@
+```text
+   networkx
+   pandas
+   requests
+   python-louvain
+   numpy
