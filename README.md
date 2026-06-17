@@ -1,7 +1,7 @@
+# Horizon: Epistemic Readiness in Scientific Networks
+
 ![Figure 1: The Tectonic Plates of AI Research (2012–2017)](outputs/gephi/horizon_map.png)
 *Figure 1: Topological map of the 2012-2017 Deep Learning boom. Colors represent distinct sub-disciplines identified via Louvain Community Detection. Node size represents citation impact. The visual gap between the NLP and RL clusters represents the structural hole quantified in the pilot study.*
-
-# Horizon: Epistemic Readiness in Scientific Networks
 
 Conventional scientometrics measures velocity: who is publishing, how fast, and who is citing whom. 
 
