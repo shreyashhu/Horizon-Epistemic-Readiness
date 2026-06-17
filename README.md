@@ -69,7 +69,7 @@ Horizon-Epistemic-Readiness/
 
 ---
 
-## 🛠️ Setup & Installation
+##  Setup & Installation
 
 ### 1. Prerequisites
 *   **Python 3.9+**
@@ -91,7 +91,7 @@ pip install networkx pandas requests python-louvain numpy pyvis
 
 ---
 
-## 📊 Data Sources & Acknowledgments
+##  Data Sources & Acknowledgments
 
 *   **OpenAlex:** Horizon relies entirely on the [OpenAlex](https://openalex.org/) index, which provides a fully open, comprehensive, and un-embargoed catalog of the global research system.
 *   **NetworkX & Python-Louvain:** For graph construction and modularity-based community detection.
@@ -99,8 +99,6 @@ pip install networkx pandas requests python-louvain numpy pyvis
 
 ---
 
-## 📜 License
+##  License
 This project is built for academic research and computational scientometrics exploration.
 ```
-
-***
