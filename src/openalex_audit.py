@@ -3,7 +3,7 @@ import pandas as pd
 import networkx as nx
 import time
 
-EMAIL = "shreyash2672009@gmail.com" # Keep your email here for the polite pool!
+EMAIL = "your_email@example.com" # Keep your email here for the polite pool!
 BASE_URL = "https://api.openalex.org/works"
 
 # THE FIX: We sort by citation count descending.

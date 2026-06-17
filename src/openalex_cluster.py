@@ -7,7 +7,7 @@ import random
 import time
 
 # 1. Fetch OpenAlex Data (1000 Most Cited DL Papers 2012-2017)
-EMAIL = "shreyash2672009@gmail.com" # Put your email here for the polite pool
+EMAIL = "your_email@example.com" # Put your email here for the polite pool
 BASE_URL = "https://api.openalex.org/works"
 
 params = {
