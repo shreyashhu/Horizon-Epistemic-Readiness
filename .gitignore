@@ -1,0 +1,20 @@
+# Data files (too large for GitHub)
+data/raw/*.csv
+data/raw/*.json
+data/processed/*.csv
+*.gexf
+
+# Python environment and cache
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
