@@ -2,10 +2,25 @@ import pandas as pd
 import networkx as nx
 import community.community_louvain as community_louvain
 import itertools
+import os
+from pathlib import Path
+import numpy as np
+
+# Dynamically find the project root (MIT 2027 IG/)
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+
+# Define target directories
+DATA_PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+OUTPUTS_GEPHI_DIR = PROJECT_ROOT / "outputs" / "gephi"
+
+# Ensure these directories exist before saving
+DATA_PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+OUTPUTS_GEPHI_DIR.mkdir(parents=True, exist_ok=True)
 
 # 1. Load Data and Build Graph
-nodes_df = pd.read_csv('openalex_nodes.csv')
-edges_df = pd.read_csv('openalex_edges.csv')
+nodes_df = pd.read_csv(DATA_PROCESSED_DIR / 'openalex_nodes.csv')
+edges_df = pd.read_csv(DATA_PROCESSED_DIR / 'openalex_edges.csv')
 
 G = nx.Graph()
 for _, row in nodes_df.iterrows():
@@ -75,9 +90,8 @@ for hub_id, degree in top_hubs:
         if (hub_id in plate_A_nodes and neighbor in plate_B_nodes) or \
            (hub_id in plate_B_nodes and neighbor in plate_A_nodes):
             hub_cross_edges += 1
+            
     print(f"  -> {hub_cross_edges} of the {cross_edges} cross-edges are just connections to this hub.")
-import numpy as np
-import networkx as nx
 
 def count_cross_edges(G, nodes_A, nodes_B):
     count = 0
@@ -120,7 +134,7 @@ std_null = np.std(null_cross_edges)
 if std_null > 0:
     z_score = (actual_cross - mean_null) / std_null
 else:
-    z_score = 0 
+    z_score = 0
 
 print("--- EPISTEMIC READINESS (STRUCTURAL HOLE Z-SCORE) ---")
 print(f"Actual Cross-Edges: {actual_cross}")
@@ -132,13 +146,13 @@ print(f"Z-Score: {z_score:.2f}")
 # THE VERDICT
 # ---------------------------------------------------------
 if z_score < -2.0:
-    print("\n🚨 HIGH EPISTEMIC READINESS DETECTED!")
-    print("The gap between these two fields is statistically massive.")
-    print("Despite high activity on both sides, an invisible barrier keeps them apart.")
-    print("The pressure for a paradigm-shifting bridge is extremely high.")
+    print("\n🚨 HIGH EPISTEMIC READINESS DETECTED! ")
+    print("The gap between these two fields is statistically massive. ")
+    print("Despite high activity on both sides, an invisible barrier keeps them apart. ")
+    print("The pressure for a paradigm-shifting bridge is extremely high. ")
 elif z_score > 2.0:
-    print("\n⚠️ FIELDS ARE OVER-INTEGRATED.")
-    print("These communities are already heavily merged. No structural hole exists.")
+    print("\n⚠️ FIELDS ARE OVER-INTEGRATED. ")
+    print("These communities are already heavily merged. No structural hole exists. ")
 else:
-    print("\n➖ NORMAL TOPOLOGY.")
-    print("The connection between these fields is exactly what random chance would predict.")
+    print("\n➖ NORMAL TOPOLOGY. ")
+    print("The connection between these fields is exactly what random chance would predict. ")

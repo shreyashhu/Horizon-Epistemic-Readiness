@@ -5,14 +5,28 @@ import community.community_louvain as community_louvain
 import collections
 import random
 import time
+import os
+from pathlib import Path
+
+# Dynamically find the project root (MIT 2027 IG/)
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+
+# Define target directories
+DATA_PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+OUTPUTS_GEPHI_DIR = PROJECT_ROOT / "outputs" / "gephi"
+
+# Ensure these directories exist before saving
+DATA_PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+OUTPUTS_GEPHI_DIR.mkdir(parents=True, exist_ok=True)
 
 # 1. Fetch OpenAlex Data (1000 Most Cited DL Papers 2012-2017)
-EMAIL = "your_email@example.com" # Put your email here for the polite pool
+EMAIL = "shreyash2672009@gmail.com" # Put your email here for the polite pool
 BASE_URL = "https://api.openalex.org/works"
 
 params = {
     "filter": "concepts.id:C154945302,publication_year:2012-2017",
-    "sort": "cited_by_count:desc", 
+    "sort": "cited_by_count:desc",
     "select": "id,doi,title,publication_year,referenced_works,cited_by_count",
     "per_page": 200,
     "cursor": "*",
@@ -21,16 +35,20 @@ params = {
 
 papers = []
 next_cursor = "*"
-pages_to_fetch = 5 
+pages_to_fetch = 5
 
 print("Fetching 1000 most cited Deep Learning papers (2012-2017)...")
 for i in range(pages_to_fetch):
     params["cursor"] = next_cursor
     response = requests.get(BASE_URL, params=params)
-    if response.status_code != 200: break
+    if response.status_code != 200: 
+        break
+    
     data = response.json()
     results = data.get('results', [])
-    if not results: break
+    if not results: 
+        break
+    
     papers.extend(results)
     next_cursor = data.get('meta', {}).get('next_cursor')
     print(f"  Page {i+1} fetched. Total: {len(papers)}")
@@ -52,9 +70,9 @@ for p in papers:
 nodes_df = pd.DataFrame(nodes_list)
 edges_df = pd.DataFrame(edges_list)
 
-nodes_df.to_csv('openalex_nodes.csv', index=False)
-edges_df.to_csv('openalex_edges.csv', index=False)
-print(f"\nSaved {len(nodes_df)} nodes and {len(edges_df)} edges to CSV.")
+nodes_df.to_csv(DATA_PROCESSED_DIR / 'openalex_nodes.csv', index=False)
+edges_df.to_csv(DATA_PROCESSED_DIR / 'openalex_edges.csv', index=False)
+print(f"\nSaved {len(nodes_df)} nodes and {len(edges_df)} edges to {DATA_PROCESSED_DIR}")
 
 # 3. Isolate Giant Component & Cluster
 G_undirected = G.to_undirected()
