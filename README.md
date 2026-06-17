@@ -3,7 +3,7 @@
 <p align="center">
   <img src="outputs/gephi/horizon_map.png" alt="Horizon Topology Map" width="800"/>
   <br>
-  <em><strong>Figure 1:</strong> Topological map of the 2012-2017 Deep Learning boom. Colors represent distinct sub-disciplines identified via Louvain Community Detection. Node size represents citation impact. The visual gap between the NLP and RL clusters represents the structural hole quantified in the pilot study.</em>
+  <em><strong>Figure 1:</strong> Topological map of the 2012-2017 Deep Learning boom. Colors represent distinct sub-disciplines identified via Louvain Community Detection. Node size represents citation impact. The visual separation between the NLP and RL clusters illustrates the structural hole quantified in the pilot study.</em>
 </p>
 
 > **Conventional scientometrics measures velocity: who is publishing, how fast, and who is citing whom.**
@@ -16,7 +16,12 @@ By modeling scientific citation networks as dynamic topological maps, Horizon id
 
 ## The Pilot Study: The 2012–2017 Deep Learning Boom
 
-To validate the methodology, Horizon ingested the **1,000 most-cited Deep Learning papers (2012–2017)** via the OpenAlex API and mapped the citation topology.
+**Dataset:**
+- 1,000 most-cited Deep Learning papers
+- Publication window: 2012–2017
+- Source: OpenAlex
+
+To validate the methodology, Horizon ingested this dataset via the OpenAlex API and mapped the citation topology.
 
 Using the **Louvain Community Detection Algorithm**, the network spontaneously fractured into distinct "tectonic plates" based purely on lateral citation behavior, including:
 - **Plate A (Community 7):** Sequence Modeling, NLP, and Relational Learning (e.g., Word2Vec, LSTMs, Bahdanau Attention).
@@ -65,11 +70,11 @@ These scripts are written and ready to be executed for the upcoming research pha
 
 ## Roadmap
 
-- [x] **Phase 0.5: Pilot Study & Reality Audit**
+- [x] **Phase 0.5: Pilot Study & Reality Audit** *(Completed)*
   - Validated OpenAlex API data density.
   - Proved Louvain clustering successfully isolates semantic sub-disciplines.
-  - Validated the Null Model Z-Score math against Super-Hub noise.
-- [ ] **Phase 1: Temporal Community Tracking (1990-2015)**
+  - Validated degree-preserving null model significance testing.
+- [ ] **Phase 1: Temporal Community Tracking (1990-2015)** *(In Progress)*
   - Execute `fetch_temporal_data.py`.
   - Implement Jaccard Similarity to track how communities merge, split, and evolve year-over-year.
 - [ ] **Phase 2: Historical Backtesting & AUC Evaluation**
@@ -138,4 +143,3 @@ python src/export_for_gephi.py
 - **Gephi:** For high-resolution topological rendering.
 
 *This project is built for academic research and computational scientometrics exploration.*
-```
