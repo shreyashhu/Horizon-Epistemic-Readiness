@@ -1,183 +1,138 @@
-# Horizon: Quantifying Epistemic Readiness in Scientific Citation Networks
+![Figure 1: The Tectonic Plates of AI Research (2012–2017)](outputs/gephi/horizon_map.png)
+*Figure 1: Topological map of the 2012-2017 Deep Learning boom. Colors represent distinct sub-disciplines identified via Louvain Community Detection. Node size represents citation impact. The visual gap between the NLP and RL clusters represents the structural hole quantified in the pilot study.*
 
-<p align="center">
-  <img src="outputs/gephi/horizon_map.png" alt="Horizon Topology Map" width="800"/>
-  <br>
-  <em><strong>Figure 1:</strong> Topological mapping of the 1,000 most-cited Deep Learning papers (2012–2017). Colors denote Louvain-optimized modularity classes. Node degree maps to citation impact.</em>
-</p>
+# Horizon: Epistemic Readiness in Scientific Networks
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square&logo=python" alt="Python">
-  <img src="https://img.shields.io/badge/NetworkX-3.0+-blue?style=flat-square" alt="NetworkX">
-  <img src="https://img.shields.io/badge/API-OpenAlex-blue?style=flat-square" alt="OpenAlex">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/Status-Phase%201%20Active-yellow?style=flat-square" alt="Status">
-</p>
+Conventional scientometrics measures velocity: who is publishing, how fast, and who is citing whom. 
+
+Horizon asks a different question: **How structurally prepared is the knowledge landscape for a discovery?**
+
+By modeling scientific citation networks as dynamic topological maps, Horizon identifies "Structural Holes"—regions where distinct sub-disciplines are highly active but artificially isolated. The core hypothesis is that when the "Epistemic Readiness" (the pressure to bridge these gaps) reaches a critical threshold, the landscape **may become increasingly favorable for a paradigm-shifting breakthrough.**
 
 ---
 
-## 1. The Core Thesis
+## The Pilot Study: The 2012–2017 Deep Learning Boom
 
-Conventional scientometrics measures **velocity**: publication volume, citation accumulation, and funding intensity. These metrics answer *what* is being researched, but they fail to predict *where* the next paradigm shift will emerge.
+To validate the methodology, Horizon ingested the **1,000 most-cited Deep Learning papers (2012–2017)** via the OpenAlex API and mapped the citation topology.
 
-**Horizon** posits a different hypothesis: **Breakthroughs do not emerge from the dense center of the network; they emerge from the structural holes where epistemic pressure is highest.**
+Using the **Louvain Community Detection Algorithm**, the network spontaneously fractured into distinct "tectonic plates" based purely on lateral citation behavior, including:
+- **Plate A (Community 7):** Sequence Modeling, NLP, and Relational Learning (e.g., Word2Vec, LSTMs, Bahdanau Attention).
+- **Plate B (Community 9):** Algorithmic Control, Reinforcement Learning, and Scientific ML (e.g., AlphaGo, PyTorch, Quantum Chemistry).
+- **Plate C:** Core Computer Vision and Generative Models (e.g., ResNet, GANs, YOLO).
 
-By modeling scientific citation networks as dynamic topological manifolds, Horizon quantifies **Epistemic Readiness**—the topological tension that exists when distinct, highly active sub-disciplines remain structurally isolated. When the pressure to bridge these structural holes reaches a critical threshold, the landscape is mathematically primed for a cross-disciplinary breakthrough.
+To determine if the gap between NLP and RL/Scientific ML was a true structural barrier or just random noise, Horizon generated **100 randomized universes** of the citation graph using a **Degree-Preserving Configuration Model**.
 
----
+- **Expected Cross-Edges (Null Mean):** 113.62
+- **Actual Cross-Edges:** 68
+- **Structural Hole Z-Score:** `-5.81` (p < 0.00001)
 
-## 2. Empirical Validation (Phase 0.5 Pilot)
+**The Finding:** The observed separation between these specific sub-disciplines during the 2012–2017 window was **significantly deeper than expected under the null model.**
 
-To validate the topological hypothesis, Horizon ingested the **1,000 most-cited Deep Learning papers (2012–2017)** via the OpenAlex API. Using the **Louvain Community Detection Algorithm** ($Q$-optimization), the network spontaneously fractured into distinct "tectonic plates" based purely on lateral citation behavior.
+### What is Proven
+- Community structure exists in the citation network.
+- A structural hole exists between NLP and RL/Scientific ML.
+- The null model confirms this separation is statistically significant.
 
-### Identified Tectonic Plates
-*   **Plate A (Community 7):** Sequence Modeling, NLP, and Relational Learning *(e.g., Word2Vec, LSTMs, Bahdanau Attention)*
-*   **Plate B (Community 9):** Algorithmic Control, RL, and Scientific ML *(e.g., AlphaGo, PyTorch, Quantum Chemistry)*
-*   **Plate C:** Core Computer Vision and Generative Models *(e.g., ResNet, GANs, YOLO)*
+### What is NOT Proven (The Open Question)
+- **Structural holes predict breakthroughs.**
 
-### Quantifying the Structural Hole (Null-Model Randomization)
-A naive observation of sparse edges between Plate A (NLP) and Plate B (RL) is insufficient; scientific networks are scale-free, meaning sparse connections could simply be an artifact of preferential attachment. 
-
-To prove the existence of a genuine structural hole, Horizon employs a **Degree-Preserving Configuration Model** (Maslov-Sneppen edge swapping via `nx.connected_double_edge_swap`). By generating 100 randomized universes that preserve the exact degree distribution of the empirical network, we calculate the statistical significance of the boundary.
-
-| Metric | Empirical Value | Null Model ($\mu$) |
-| :--- | :--- | :--- |
-| **Expected Cross-Edges** | - | 113.62 |
-| **Actual Cross-Edges** | **68** | - |
-| **Standard Deviation ($\sigma$)** | - | 7.85 |
-| **Structural Hole Z-Score** | **-5.81** | **p < 0.00001** |
-
-**Conclusion:** The topological separation between NLP and RL during 2012–2017 was statistically anomalous. The "invisible barrier" was real. Within three years, this exact structural hole collapsed via breakthroughs like **AlphaFold 2** and **Decision Transformers**.
+We demonstrated that the topological gap was real. We have *not* yet demonstrated that this topological gap actively predicts the emergence of cross-domain breakthroughs (like AlphaFold 2 or Decision Transformers). Phase 2 is designed specifically to test this causal link against historical baselines.
 
 ---
 
-## 3. Methodological Pipeline
+## Repository Structure & Script Status
 
-The Horizon pipeline is designed for computational reproducibility and API rate-limit compliance (utilizing the OpenAlex "polite pool").
+The `/src` directory contains the pipeline scripts. They are divided into **Pilot Scripts** (used to generate the current findings) and **Future Phase Scripts** (built but not yet executed, awaiting the next research phase).
 
-```mermaid
-graph TD
-    A[OpenAlex API] -->|Polite Pool Ingestion| B(fetch_temporal_data.py)
-    B -->|Raw Snapshots| C[(data/raw/)]
-    C --> D(openalex_cluster.py)
-    D -->|NetworkX Graph| E{Louvain Modularity}
-    E -->|Community Assignments| F(measure_pressure.py)
-    F -->|Degree-Preserving Swaps| G[Null Model Z-Score]
-    G --> H[Epistemic Readiness Metric]
-    E -->|GEXF Export| I[export_for_gephi.py]
-    I --> J[Gephi Topology Map]
-```
+### Pilot Scripts (Completed)
+These scripts were used to generate the pilot findings:
+- `openalex_audit.py`: Phase 0.5 audit. Validates OpenAlex API data density and lateral citation topology to ensure the "Rich Club" was captured.
+- `openalex_cluster.py` / `cluster_csv.py` / `cluster_graph.py`: Ingests data, builds the citation graph, and applies Louvain community detection to identify sub-disciplines.
+- `measure_pressure.py`: Calculates the Epistemic Readiness Z-Score using the degree-preserving null model.
+- `inspect_plates.py`: Semantic sampling script to manually inspect and label the discovered communities (e.g., NLP vs. RL).
+- `export_for_gephi.py`: Exports the clustered graph to `.gexf` for topological visualization in Gephi.
+- `build_graph.py`: Utility to parse raw API JSON/CSV dumps into clean node/edge lists.
 
-### Repository Architecture
-```text
-Horizon-Epistemic-Readiness/
-├── data/
-│   ├── raw/                     # Temporal OpenAlex snapshots (1990-2015)
-│   └── processed/               # Cleaned node/edge CSVs & adjacency matrices
-├── src/
-│   ├── openalex_cluster.py      # API ingestion, graph building, Louvain clustering
-│   ├── measure_pressure.py      # Null model randomization & Z-score calculation
-│   ├── inspect_plates.py        # Semantic sampling of modularity classes
-│   ├── fetch_temporal_data.py   # Longitudinal snapshot generator
-│   └── export_for_gephi.py      # GEXF export with modularity partitions
-├── outputs/gephi/               # .gexf network files and topology renders
-├── config.py                    # LOCAL ONLY: OpenAlex API credentials (.gitignored)
-├── requirements.txt
-└── README.md
-```
+### Future Phase Scripts (Ready for Next Steps)
+These scripts are written and ready to be executed for the upcoming research phases:
+- `fetch_temporal_data.py`: **(For Phase 1)** Fetches a broader temporal slice (1990–2015) from OpenAlex. 
+  - *Why it's not used yet:* The pilot only required a static 2012-2017 window to prove the topological concept. This script is queued to build the year-over-year snapshots needed for temporal lineage tracking in Phase 1.
 
 ---
 
-## 4. Research Roadmap & Hypotheses
+## Roadmap
 
-### 🟡 Phase 1: Temporal Community Tracking (1990–2015)
-*Currently In Progress.*
-*   **Objective:** Track community lineage over time using **Jaccard Similarity** of community memberships between $t$ and $t+1$.
-*   **Goal:** Detect community merges, splits, and the temporal evolution of topological boundaries.
-
-### ⚪ Phase 2: Historical Backtesting & AUC Evaluation
-*Planned.* We will rigorously test three competing hypotheses against historical breakthroughs (e.g., the advent of the Transformer, AlphaFold, CRISPR):
-*   **$H_0$ (Stochastic):** Breakthroughs emerge randomly, independent of network topology.
-*   **$H_1$ (Preferential Attachment):** Breakthroughs emerge proportional to node degree and edge density (the "Rich-Get-Richer" model).
-*   **$H_2$ (Epistemic Readiness):** Breakthroughs emerge disproportionately at the boundaries of communities exhibiting maximal structural hole constraint (maximal Epistemic Readiness).
-
-### ⚪ Phase 3: Interactive Streamlit Dashboard
-*Planned.* Deploy an interactive web application allowing researchers to scrub through temporal snapshots, observe the evolution of modularity classes, and monitor the real-time buildup of epistemic pressure.
+- [x] **Phase 0.5: Pilot Study & Reality Audit**
+  - Validated OpenAlex API data density.
+  - Proved Louvain clustering successfully isolates semantic sub-disciplines.
+  - Validated the Null Model Z-Score math against Super-Hub noise.
+- [ ] **Phase 1: Temporal Community Tracking (1990-2015)**
+  - Execute `fetch_temporal_data.py`.
+  - Implement Jaccard Similarity to track how communities merge, split, and evolve year-over-year.
+- [ ] **Phase 2: Historical Backtesting & AUC Evaluation**
+  - Test H₀ (Stochastic), H₁ (Activity/Rich-get-richer), and H₂ (Epistemic Readiness) against actual historical breakthroughs.
+- [ ] **Phase 3: Interactive Web Dashboard**
+  - Deploy a Streamlit application allowing users to scrub through time and watch Epistemic Pressure build in real-time.
 
 ---
 
-## 5. Setup & Reproducibility Guide
+## Setup & Usage
 
-### Step 1: Environment Configuration
+### Requirements
+- **Python 3.9+**
+- An email address (OpenAlex provides a significantly faster "polite pool" API rate limit if you include your email in the request headers).
+
+### Installation
 ```bash
+# Clone the repository
 git clone https://github.com/shreyashhu/Horizon-Epistemic-Readiness.git
 cd Horizon-Epistemic-Readiness
 
+# Create and activate a virtual environment
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Step 2: API Credentials (Crucial)
-OpenAlex enforces strict rate limits. To utilize the "polite pool" (10x faster API limits), you must provide an email address.
+### Configuration
+OpenAlex requires an email for the polite pool. To protect your privacy, use a local config file:
 1. Create a file named `config.py` in the root directory.
 2. Add your email:
    ```python
-   EMAIL = "your_academic_email@mit.edu"
+   # config.py
+   EMAIL = "your_actual_email@example.com"
    ```
-3. Ensure `config.py` is listed in `.gitignore`.
+3. Verify that `config.py` is listed in `.gitignore`.
 
-### Step 3: Execute the Pipeline
+### Execution (Pilot Pipeline)
+Run these scripts sequentially from the root directory to replicate the pilot study:
 ```bash
-# 1. Fetch temporal data (Phase 1)
-python src/fetch_temporal_data.py
-
-# 2. Build Graph & Detect Communities
+python src/openalex_audit.py
 python src/openalex_cluster.py
-
-# 3. Calculate Epistemic Readiness (Z-Score)
 python src/measure_pressure.py
-
-# 4. Export for Gephi Visualization
+python src/inspect_plates.py
 python src/export_for_gephi.py
 ```
 
----
-
-## 6. Visualizing the Topology (Gephi Protocol)
-
-To reproduce the topological maps seen in academic publications:
-1. Download [Gephi](https://gephi.org/).
-2. Load `outputs/gephi/horizon_openalex_map.gexf`.
-3. **Layout:** Select **ForceAtlas 2**.
-   * ✅ Check *Prevent Overlap*
-   * Set *Scaling* to `10.0`
-   * Run until stabilization, then stop.
-4. **Appearance (Nodes):** 
-   * *Partition* $\rightarrow$ `community` (Assigns modularity colors).
-   * *Ranking* $\rightarrow$ `Degree` (Min: 10, Max: 60).
-5. **Export:** High-resolution PNG (Anti-aliasing enabled).
+### Visualizing the Topology (Gephi)
+1. Download and install [Gephi](https://gephi.org/).
+2. Open Gephi and import `outputs/gephi/horizon_openalex_map.gexf`.
+3. In the **Layout** panel, select `ForceAtlas 2`.
+   - ✅ Check `Prevent Overlap`
+   - Change `Scaling` to `10.0`
+   - Click `Run`, wait 10-15 seconds, then click `Stop`.
+4. In the **Appearance** panel (Nodes > Palette), partition by `community`.
+5. In the **Appearance** panel (Nodes > Size > Ranking), rank by `Degree` (Min: 10, Max: 60).
+6. Export as PNG to `outputs/gephi/horizon_map.png`.
 
 ---
 
-## 7. Limitations & Epistemological Caveats
+## Acknowledgments
+- **OpenAlex:** For providing an open, comprehensive catalog of the global research system.
+- **NetworkX & Python-Louvain:** For graph construction and modularity-based community detection.
+- **Gephi:** For high-resolution topological rendering.
 
-As with all bibliometric research, Horizon operates under specific epistemological constraints:
-1.  **Citation $\neq$ Endorsement:** Citations map *attention*, not necessarily intellectual agreement or foundational reliance.
-2.  **OpenAlex Coverage Bias:** While OpenAlex is comprehensive, it inherently biases toward English-language, STEM-focused, and digitally native publications.
-3.  **The "Hub" Problem:** Highly cited foundational papers (e.g., *Attention is All You Need*) act as topological bridges. Horizon's null-model must rigorously control for these "super-hubs" to prevent false positives in structural hole detection.
-
----
-
-## 8. Acknowledgments & Dependencies
-
-*   **[OpenAlex](https://openalex.org/):** For providing an open, comprehensive, and un-embargoed index of the global research system.
-*   **[NetworkX](https://networkx.org/):** For graph construction, topological analysis, and Maslov-Sneppen randomization.
-*   **[Python-Louvain](https://python-louvain.readthedocs.io/):** For Blondel-Louvain modularity optimization.
-*   **[Gephi](https://gephi.org/):** For ForceAtlas2 layout generation and topological rendering.
-
----
-
-### License
-This project is licensed under the **MIT License**. It is built for academic research, computational scientometrics, and exploratory network science. Contributions, methodological critiques, and academic collaborations are highly encouraged.
+*This project is built for academic research and computational scientometrics exploration.*
+```
