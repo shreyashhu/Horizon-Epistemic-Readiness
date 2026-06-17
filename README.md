@@ -37,15 +37,11 @@ To determine if the gap between NLP (Plate A) and RL/Scientific ML (Plate B) was
 
 ##  Interpretation & Limitations
 
-The observed structural hole is consistent with later cross-domain breakthroughs such as **AlphaFold 2** and **Decision Transformers**, which fused sequence attention mechanisms with scientific and control environments. 
+The observed structural hole suggests that substantial topological separation existed between the NLP/Sequence Modeling and RL/Scientific ML domains during the 2012–2017 observation window. 
 
-However, this pilot only demonstrates that the topological pressure existed *prior* to these events. Future work will determine whether such patterns generalize statistically across multiple historical breakthroughs.
+Whether such topological separation actively *predicts* future cross-domain breakthroughs (such as AlphaFold 2 or Decision Transformers) remains an open question. Phase 2 will rigorously test if regions with high Epistemic Readiness (deep structural holes) yield a statistically higher rate of paradigm-shifting papers compared to baseline activity metrics (H₁).
 
-**Known Limitations:**
-1.  **Temporal Static:** The current pilot evaluates a single static time window (2012–2017). Dynamic community tracking over time (e.g., Jaccard similarity year-over-year) is not yet implemented.
-2.  **No Backtesting:** Historical validation against a ground-truth dataset of breakthroughs (calculating AUC/Precision) is pending.
-3.  **Material Confounds:** The model currently ignores external material factors (e.g., compute availability, funding, hardware releases like GPUs) which heavily gate AI research.
-4.  **Sample Bias:** The pilot is limited to a 1,000-paper "most-cited" subset, which introduces a super-hub bias that requires careful null-modeling to filter out.
+*(Methodology Note: This pilot utilized 100 randomized universes for the null model. Phase 2 will scale this to 1,000+ iterations to ensure robust p-values for publication standards.)*
 
 ---
 
